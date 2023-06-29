@@ -12,7 +12,7 @@ export default function Create() {
                     headerLeft: () => (
                         <Button
                             title="Close"
-                            color={Platform.OS === "ios" ? "#fff" : "#acc6c9"}
+                            color={Platform.OS === "ios" ? "#fff" : "#264c59"}
                             onPress={() => router.back()}
                         />
                     )
