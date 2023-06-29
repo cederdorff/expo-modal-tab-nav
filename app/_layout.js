@@ -11,7 +11,6 @@ export default function AppLayout() {
                 <Stack.Screen
                     name="(modals)/create"
                     options={{
-                        title: "Create New Post",
                         presentation: "modal",
                         headerTintColor: "#fff",
                         headerStyle: {

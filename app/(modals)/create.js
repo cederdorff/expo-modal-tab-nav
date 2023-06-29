@@ -8,6 +8,7 @@ export default function Create() {
         <View style={styles.container}>
             <Stack.Screen
                 options={{
+                    title: "Create New Post",
                     headerLeft: () => (
                         <Button
                             title="Close"
