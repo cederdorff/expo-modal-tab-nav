@@ -1,14 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs, useRouter } from "expo-router";
-import { Button } from "react-native";
+import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-    const router = useRouter();
-
-    function showCreateModal() {
-        router.push("/create");
-    }
-
     return (
         <Tabs
             screenOptions={{
@@ -30,8 +23,7 @@ export default function TabLayout() {
                     tabBarActiveTintColor: "#264c59",
                     tabBarInactiveTintColor: "#fff",
                     tabBarActiveBackgroundColor: "#acc6c9",
-                    tabBarIcon: () => <Ionicons name="home" size={24} color="white" />,
-                    headerRight: () => <Button title="Add New" color="#fff" onPress={showCreateModal} />
+                    tabBarIcon: () => <Ionicons name="home" size={24} color="white" />
                 }}
             />
             <Tabs.Screen
