@@ -1,8 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 export default function Create() {
+    const router = useRouter();
+
     return (
         <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerLeft: () => (
+                        <Button
+                            title="Close"
+                            color={Platform.OS === "ios" ? "#fff" : "#acc6c9"}
+                            onPress={() => router.back()}
+                        />
+                    )
+                }}
+            />
             <View style={styles.main}>
                 <Text style={styles.title}>Create</Text>
                 <Text style={styles.subtitle}>Create a new post.</Text>
