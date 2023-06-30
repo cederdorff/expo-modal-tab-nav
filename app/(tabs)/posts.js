@@ -26,8 +26,6 @@ export default function Posts() {
             </View>
         </View>
     );
-
-    <Button title="Close" color={Platform.OS === "ios" ? "#fff" : "#acc6c9"} onPress={() => router.back()} />;
 }
 
 const styles = StyleSheet.create({
