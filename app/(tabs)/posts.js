@@ -1,5 +1,5 @@
 import { Stack, useRouter } from "expo-router";
-import { Button, Platform, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import Post from "../components/Post";
 
 export default function Posts() {
@@ -35,6 +35,12 @@ export default function Posts() {
     function showCreateModal() {
         router.push("/create");
     }
+
+    function renderPostItem(item) {
+        const post = item.item;
+        return <Post post={post} />;
+    }
+
     return (
         <View style={styles.container}>
             <Stack.Screen
@@ -48,32 +54,24 @@ export default function Posts() {
                     )
                 }}
             />
-            <View style={styles.main}>
-                <Text style={styles.title}>Posts</Text>
-                <Text style={styles.subtitle}>This is the first page of your app.</Text>
-                {posts.map(post => (
-                    <Post post={post} />
-                ))}
-            </View>
+
+            <Text style={styles.title}>Posts</Text>
+            <FlatList data={posts} renderItem={renderPostItem} keyExtractor={post => post.id} />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        padding: 24
+        flex: 1
     },
-    main: {
-        flex: 1,
-        justifyContent: "center",
-        maxWidth: 960,
-        marginHorizontal: "auto"
-    },
+
     title: {
         fontSize: 64,
         fontWeight: "bold"
+    },
+    list: {
+        flex: 1
     },
     subtitle: {
         fontSize: 36,
