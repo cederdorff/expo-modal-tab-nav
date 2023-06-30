@@ -28,17 +28,12 @@ export default function Posts() {
             caption: "Exploring the city center of Aarhus",
             createdAt: 1687615704430,
             image: "https://images.unsplash.com/photo-1612624629424-ddde915d3dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-            uid: "-M3Ghi789vwx"
+            id: "-M3Ghi789vwx"
         }
     ];
 
     function showCreateModal() {
         router.push("/create");
-    }
-
-    function renderPostItem(item) {
-        const post = item.item;
-        return <Post post={post} />;
     }
 
     return (
@@ -56,7 +51,7 @@ export default function Posts() {
             />
 
             <Text style={styles.title}>Posts</Text>
-            <FlatList data={posts} renderItem={renderPostItem} keyExtractor={post => post.id} />
+            <FlatList data={posts} renderItem={({ item }) => <Post post={item} />} keyExtractor={post => post.id} />
         </View>
     );
 }
@@ -72,9 +67,5 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1
-    },
-    subtitle: {
-        fontSize: 36,
-        color: "#38434D"
     }
 });
