@@ -1,7 +1,7 @@
 import { Stack, useRouter } from "expo-router";
-import { Button, FlatList, Platform, StyleSheet, Text, View } from "react-native";
-import Post from "../components/Post";
 import { useEffect, useState } from "react";
+import { Button, FlatList, Platform, StyleSheet, View } from "react-native";
+import PostListItem from "../components/PostListItem";
 
 export default function Posts() {
     const router = useRouter();
@@ -36,21 +36,17 @@ export default function Posts() {
                     )
                 }}
             />
-            <FlatList data={posts} renderItem={({ item }) => <Post post={item} />} keyExtractor={item => item.id} />
+            <FlatList
+                data={posts}
+                renderItem={({ item }) => <PostListItem post={item} />}
+                keyExtractor={item => item.id}
+            />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-
-    title: {
-        fontSize: 64,
-        fontWeight: "bold"
-    },
-    list: {
         flex: 1
     }
 });
