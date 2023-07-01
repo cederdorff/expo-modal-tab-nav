@@ -1,36 +1,23 @@
 import { Stack, useRouter } from "expo-router";
 import { Button, FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import Post from "../components/Post";
+import { useEffect, useState } from "react";
 
 export default function Posts() {
     const router = useRouter();
+    const [posts, setPosts] = useState([]);
 
-    const posts = [
-        {
-            caption: "Beautiful sunset at the beach",
-            createdAt: 1687215634430,
-            image: "https://images.unsplash.com/photo-1566241832378-917a0f30db2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-            id: "-M1Abcdefg123"
-        },
-        {
-            caption: "Exploring the city streets of Aarhus",
-            createdAt: 1687615634430,
-            image: "https://images.unsplash.com/photo-1559070169-a3077159ee16?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-            id: "-M1Xyz987pqr"
-        },
-        {
-            caption: "Delicious food at the restaurant",
-            createdAt: 1687015634430,
-            image: "https://images.unsplash.com/photo-1548940740-204726a19be3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-            id: "-M2Def456stu"
-        },
-        {
-            caption: "Exploring the city center of Aarhus",
-            createdAt: 1687615704430,
-            image: "https://images.unsplash.com/photo-1612624629424-ddde915d3dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-            id: "-M3Ghi789vwx"
+    useEffect(() => {
+        async function getPosts() {
+            const response = await fetch("https://expo-post-app-default-rtdb.firebaseio.com/posts.json");
+            const dataObj = await response.json();
+            const postsArray = Object.keys(dataObj).map(key => ({ id: key, ...dataObj[key] })); // from object to array
+            postsArray.sort((postA, postB) => postB.createdAt - postA.createdAt);
+            setPosts(postsArray);
         }
-    ];
+
+        getPosts();
+    }, []);
 
     function showCreateModal() {
         router.push("/create");
@@ -49,9 +36,7 @@ export default function Posts() {
                     )
                 }}
             />
-
-            <Text style={styles.title}>Posts</Text>
-            <FlatList data={posts} renderItem={({ item }) => <Post post={item} />} keyExtractor={post => post.id} />
+            <FlatList data={posts} renderItem={({ item }) => <Post post={item} />} keyExtractor={item => item.id} />
         </View>
     );
 }
