@@ -1,11 +1,12 @@
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Button, FlatList, Platform, StyleSheet, View } from "react-native";
+import { Button, FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import PostListItem from "../components/PostListItem";
 
 export default function Posts() {
     const router = useRouter();
     const [posts, setPosts] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         getPosts();
@@ -32,6 +33,14 @@ export default function Posts() {
         router.push("/create");
     }
 
+    async function handleRefresh() {
+        setRefreshing(true);
+        await getPosts();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 500);
+    }
+
     return (
         <View style={styles.container}>
             <Stack.Screen
@@ -49,6 +58,9 @@ export default function Posts() {
                 data={posts}
                 renderItem={({ item }) => <PostListItem post={item} />}
                 keyExtractor={item => item.id}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#264c59" />
+                }
             />
         </View>
     );
