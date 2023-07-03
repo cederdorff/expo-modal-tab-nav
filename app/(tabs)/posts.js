@@ -30,7 +30,7 @@ export default function Posts() {
     }
 
     function showCreateModal() {
-        router.push("/create");
+        router.push("/post-modal");
     }
 
     async function handleRefresh() {

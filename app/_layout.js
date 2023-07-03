@@ -11,7 +11,7 @@ export default function AppLayout() {
                 <Stack>
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                     <Stack.Screen
-                        name="(modals)/create"
+                        name="(modals)/post-modal"
                         options={{
                             presentation: "modal",
                             headerTintColor: "#fff",
