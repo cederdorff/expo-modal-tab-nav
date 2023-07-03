@@ -50,6 +50,10 @@ export default function PostListItem({ post }) {
         );
     }
 
+    function showUpdateModal() {}
+
+    function showDeleteDialog() {}
+
     return (
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
