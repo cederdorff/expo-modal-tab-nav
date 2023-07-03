@@ -1,24 +1,27 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 export default function AppLayout() {
     return (
-        <>
-            <StatusBar style="light" />
+        <ActionSheetProvider>
+            <>
+                <StatusBar style="light" />
 
-            <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                    name="(modals)/create"
-                    options={{
-                        presentation: "modal",
-                        headerTintColor: "#fff",
-                        headerStyle: {
-                            backgroundColor: "#264c59"
-                        }
-                    }}
-                />
-            </Stack>
-        </>
+                <Stack>
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name="(modals)/create"
+                        options={{
+                            presentation: "modal",
+                            headerTintColor: "#fff",
+                            headerStyle: {
+                                backgroundColor: "#264c59"
+                            }
+                        }}
+                    />
+                </Stack>
+            </>
+        </ActionSheetProvider>
     );
 }

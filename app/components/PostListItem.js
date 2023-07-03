@@ -1,8 +1,12 @@
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, StyleSheet, Text, View } from "react-native";
+
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
 
 export default function PostListItem({ post }) {
+    const { showActionSheetWithOptions } = useActionSheet();
+
     function formatDate(timestamp) {
         const createdAt = new Date(timestamp);
         let month = createdAt.getMonth();
@@ -15,11 +19,44 @@ export default function PostListItem({ post }) {
         return `${createdAt.getFullYear()}-${month}-${date}`;
     }
 
+    function showEditMenu() {
+        const options = ["Update Post", "Delete Post", "Cancel"];
+        const destructiveButtonIndex = 1;
+        const cancelButtonIndex = 2;
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex,
+                destructiveButtonIndex,
+                title: "Edit Post"
+            },
+            selectedIndex => {
+                switch (selectedIndex) {
+                    case 0:
+                        // Update Post
+                        showUpdateModal();
+                        break;
+
+                    case destructiveButtonIndex:
+                        // Delete Post
+                        showDeleteDialog();
+                        break;
+
+                    case cancelButtonIndex:
+                    // Canceled
+                }
+            }
+        );
+    }
+
     return (
         <View style={styles.postContainer}>
             <View style={styles.headerContainer}>
                 <Avatar userId={post.uid} />
-                <Ionicons style={styles.moreBtn} name="ellipsis-horizontal" size={28} color="#264c59" />
+                <TouchableOpacity style={styles.moreBtn} onPress={showEditMenu}>
+                    <Ionicons name="ellipsis-horizontal" size={28} color="#264c59" />
+                </TouchableOpacity>
             </View>
             <Image style={styles.postImage} source={{ uri: post.image }} />
             <Text style={styles.postCaption}>{post.caption}</Text>
