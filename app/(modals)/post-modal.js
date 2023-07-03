@@ -1,17 +1,34 @@
 import * as ImagePicker from "expo-image-picker";
-import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
+import { Stack, useRouter, useSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { Button, Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-export default function Create() {
+export default function PostModal() {
+    const { id } = useSearchParams();
     const router = useRouter();
     const [caption, setCaption] = useState("");
     const [image, setImage] = useState("");
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
+    useEffect(() => {
+        async function getPost() {
+            const response = await fetch(`${API_URL}/posts/${id}.json`);
+            const data = await response.json();
+            setImage(data.image);
+            setCaption(data.caption);
+        }
+        if (id) {
+            getPost();
+        }
+    }, [id]);
+
     function handleSave() {
         if (caption && image) {
-            createPost();
+            if (id) {
+                updatePost();
+            } else {
+                createPost();
+            }
         }
     }
 
@@ -24,6 +41,17 @@ export default function Create() {
             uid: "fTs84KRoYw5pRZEWCq2Z"
         };
         const response = await fetch(`${API_URL}/posts.json`, { method: "POST", body: JSON.stringify(post) });
+        if (response.ok) {
+            router.back();
+        }
+    }
+
+    async function updatePost() {
+        const post = { caption: caption, image: image };
+        const response = await fetch(`${API_URL}/posts/${id}.json`, {
+            method: "PATCH",
+            body: JSON.stringify(post)
+        });
         if (response.ok) {
             router.back();
         }
@@ -47,7 +75,7 @@ export default function Create() {
         <View style={styles.container}>
             <Stack.Screen
                 options={{
-                    title: "Create New Post",
+                    title: id ? "Update Post" : "Create New Post",
                     headerLeft: () => (
                         <Button
                             title="Close"

@@ -1,11 +1,13 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
 
 export default function PostListItem({ post, reload }) {
     const { showActionSheetWithOptions } = useActionSheet();
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
+    const router = useRouter();
 
     function formatDate(timestamp) {
         const createdAt = new Date(timestamp);
@@ -50,7 +52,10 @@ export default function PostListItem({ post, reload }) {
         );
     }
 
-    function showUpdateModal() {}
+    function showUpdateModal() {
+        console.log("Hoola");
+        router.push({ pathname: "/post-modal", params: { id: post.id } });
+    }
 
     function showDeleteDialog() {
         Alert.alert("Delete Post", `Do you want to delete post '${post.caption}'?`, [
