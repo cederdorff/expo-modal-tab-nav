@@ -1,11 +1,11 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
-
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Avatar from "./Avatar";
 
-export default function PostListItem({ post }) {
+export default function PostListItem({ post, reload }) {
     const { showActionSheetWithOptions } = useActionSheet();
+    const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     function formatDate(timestamp) {
         const createdAt = new Date(timestamp);
@@ -52,7 +52,23 @@ export default function PostListItem({ post }) {
 
     function showUpdateModal() {}
 
-    function showDeleteDialog() {}
+    function showDeleteDialog() {
+        Alert.alert("Delete Post", `Do you want to delete post '${post.caption}'?`, [
+            {
+                text: "No",
+                style: "destructive"
+            },
+            { text: "Yes", onPress: deletePost }
+        ]);
+    }
+
+    async function deletePost() {
+        const response = await fetch(`${API_URL}/posts/${post.id}.json`, { method: "DELETE" });
+        if (response.ok) {
+            console.log("Post deleted!");
+            reload();
+        }
+    }
 
     return (
         <View style={styles.postContainer}>

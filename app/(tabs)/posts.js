@@ -56,7 +56,7 @@ export default function Posts() {
             />
             <FlatList
                 data={posts}
-                renderItem={({ item }) => <PostListItem post={item} />}
+                renderItem={({ item }) => <PostListItem post={item} reload={getPosts} />}
                 keyExtractor={item => item.id}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#264c59" />
