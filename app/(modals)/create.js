@@ -6,7 +6,9 @@ import { Button, Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity,
 export default function Create() {
     const router = useRouter();
     const [caption, setCaption] = useState("");
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(
+        "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
+    );
     const API_URL = "https://expo-post-app-default-rtdb.firebaseio.com";
 
     function handleSave() {
@@ -69,9 +71,7 @@ export default function Create() {
                 <Image
                     style={styles.image}
                     source={{
-                        uri:
-                            image ||
-                            "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
+                        uri: image
                     }}
                 />
             </TouchableOpacity>
