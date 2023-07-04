@@ -10,6 +10,8 @@ export default function PostListItem({ post }) {
         month = month < 10 ? "0" + month : month;
         date = date < 10 ? "0" + date : date;
 
+        // new Date(createdAt).toISOString().split("T")[0])
+
         return `${createdAt.getFullYear()}-${month}-${date}`;
     }
 
